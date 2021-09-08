@@ -1,0 +1,23 @@
+{
+  "name": "Smoke",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "jsdom": "^17.0.0",
+    "mime": "^2.5.2",
+    "mime-types": "^2.1.32",
+    "node-fetch": "^2.6.1"
+  }
+}
