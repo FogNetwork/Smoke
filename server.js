@@ -1,5 +1,4 @@
 var https = require("https"),
-    ipfilter = require("express-ipfilter").IpFilter,
     bodyParser = require("body-parser"),
     mime = require("mime"),
     fs = require("fs"),
