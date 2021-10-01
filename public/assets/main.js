@@ -11,11 +11,8 @@ document.querySelector('#url-input').addEventListener('keyup', (e) => {
 const initiate = (url) => {
   var url = document.getElementById("url-input").value;
   if (!url == "") {
-    var href = '/go/'+document.getElementById('url-input').value.replace(/(https|http):\/\//, '')
-    if (href.includes('/', 2)) {
-      href = href+'/'
-    }
-    location.href = href
+    var value = document.getElementById('url-input').value
+    location.href = "/go/gateway?url=" + value
   } else {
     urlerror()
   }
