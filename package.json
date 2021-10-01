@@ -15,6 +15,6 @@
   "license": "ISC",
   "dependencies": {
     "jsdom": "^17.0.0",
-    "mime": "^2.5.2",
+    "mime": "^2.5.2"
   }
 }
