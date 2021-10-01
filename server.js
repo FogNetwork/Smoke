@@ -1,54 +1,50 @@
-const axios = require('axios')
-const http = require('http')
-const https = require('https')
-const mime = require('mime')
-const fs = require('fs')
-btoa = str => new Buffer.from(str).toString('base64'),
-atob = str => new Buffer.from(str, 'base64').toString('utf-8')
-var { prefix, port, blockedHosts } = require('./config.json')
-if(!prefix.includes("/", 2)) {prefix = prefix.replace("/", "");prefix = "/"+prefix+"/"}
-function getMimeType(url) {
-    if(url.indexOf('?') !== -1) {
-        url = url.split("?")[0];
-    }
-    return mime.getType(url) || 'text/html';
-};
-
-var proxy = new (require('./lib/smoke'))(prefix, {blockedHosts})
-
-app = (req, res) => {
-  if (req.url.startsWith('/service')) {
-    var queryRegex = /\/service(\/*)\?url=(.*)/gi
-    req.query = req.url.replace(queryRegex, function(match, p1, p2) {
-      return p2
-    })
-
-    res.writeHead(302, { 'Location': prefix + req.query }); res.end()
-  }
-  else if (req.url.replace(prefix, '')==='smoke') {
-    res.writeHead(200, {'content-type': 'application/javascript'})
-    res.end(fs.readFileSync('./lib/smoke.js'))
-  } else if (req.url.startsWith(prefix)) {
-    /*var url = 'https://'+req.url.replace(prefix, '')
-    var urlSlice = new URL(url)
-    blockedHosts.map((data) => {
-      if (new URL(data.url).host == urlSlice.host) {
-        res.writeHead(200, {'content-type': 'text/html'})
-        res.end(fs.readFileSync('./lib/err.html', 'utf-8').replace('err_reason', 'Hostname '+data.url+' Blocked: '+(data.reason ? data.reason : 'Hostname on Blocklist. Please ask the Proxy Maintainer for Details')))
-        return
-      }
-    })*/
-    return proxy.request(req, res);
-  } else if (req.url==='/') {
-    res.writeHead(200, {'content-type': 'text/html'}).end(fs.readFileSync('./public/index.html'))
-  } else {
-    var path = './public' + req.url
-    if (!fs.existsSync(path)) {
-      res.end(fs.readFileSync('./lib/err.html', 'utf-8').replace('err_reason', 'File Not Found, "'+path.replace(/^\.\/public\//gm, '')+'"'))
-      return
-    }
-    res.writeHead(200, {'content-type': getMimeType(req.url)}).end(fs.readFileSync(path, () => {}))
-  }
-}
-
-http.createServer(app).listen((process.env.PORT || port), () => {console.log('https://localhost:'+(process.env.PORT || port))});
+var https = require("https"),
+    ipfilter = require("express-ipfilter").IpFilter,
+    bodyParser = require("body-parser"),
+    mime = require("mime"),
+    fs = require("fs"),
+    btoa = e => new Buffer.from(e).toString("base64"),
+    atob = e => new Buffer.from(e, "base64").toString("utf-8"),
+    getMimeType = e => (-1 !== e.indexOf("?") && (e = e.split("?")[0]), mime.getType(e) || "text/html"),
+    config = require("./config.json"),
+    prefix = config.prefix.includes("/", 2) ? config.prefix : () => {
+        prefix.replace("/", "")
+    },
+    {
+        port: port,
+        blockedHosts: blockedHosts,
+        title: title,
+        blockedIp: blockedIp
+    } = require("./config.json"),
+    proxy = new(require("./lib/smoke"))(prefix, {
+        hostBlock: blockedHosts,
+        docTitle: title
+    }),
+    app = require("express")().use(bodyParser.urlencoded({
+        extended: false
+    })).use(bodyParser.json()).get("*", (e, r) => {
+        if (e.url.startsWith(prefix + "gateway")) {
+          if (!e.query.url.startsWith('http')) {
+            e.query.url = 'https://google.com/search?q='+e.query.url
+          }
+          new URL(e.query.url) ? r.redirect(prefix + btoa(e.query.url)) : (atob(e.query.url) ? r.redirect(prefix + e.query.url) : r.end("URL Parse Error"))}
+        else {
+            if (e.url.startsWith(prefix)) return proxy.request(e, r);
+            if ("/" === e.url) r.writeHead(200, {
+                "content-type": "text/html"
+            }).end(fs.readFileSync("./public/index.html"));
+            else {
+                var t = "./public" + e.url;
+                if (!fs.existsSync(t)) return void r.end(fs.readFileSync("./lib/err.html", "utf-8").replace("err_reason", 'File Not Found, "' + t.replace(/^\.\/public\//gm, "") + '"'));
+                r.sendFile(e.url, {
+                    root: "./public"
+                })
+            }
+        }
+    }).post('*', (req, res) => {
+        if (req.url.startsWith(prefix)) return proxy.post(req, res)
+    }),
+    expressWs = require('express-ws')(app);
+app.ws('*', (ws, req) => {}).listen(process.env.PORT || port, () => {
+    console.log('https://localhost:' + port)
+})
