@@ -1,5 +1,5 @@
 # Smoke
-An official proxy of Fog Network and Ludicrous, smoke is a gateway for evading censorship
+An official proxy of Fog Network and Ludicrous, smoke is a gateway for uncensored internet
 
 <a href="https://heroku.com/deploy?template=https://github.com/FogNetwork/Smoke" title="Deploy to Heroku"><img alt="Deploy to Heroku" src="https://github.com/FogNetwork/Tsunami/raw/main/deploy/heroku.svg" width="140" height="30"><img></a>
 &nbsp;
@@ -26,9 +26,11 @@ npm start
 
 ```
 {
-    "port": "8080",
+    "port": "10000",
     "prefix": "/go/",
-    "blockedHosts": []
+    "title": "Service",
+    "blockedHosts": [],
+    "blockedIp": []
 }
 ```
 
@@ -36,6 +38,10 @@ npm start
 
 `"prefix": "/go/"` Changes the prefix for the proxy
 
+`"title": "Service"` Changes the title of websites
+
 `"blockedHosts": [{"url": "https://example.com", "reason": "No Access"}, {"url": "https://example.org"}]` Websites blocked by proxy
+
+`"blockedIp": []` Websites blocked by Ip
 
 Make my EnderKingJ and Nebelung
