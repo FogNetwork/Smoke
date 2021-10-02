@@ -1,7 +1,7 @@
 {
     "name": "Smoke",
-    "description": "The official proxy of Fog Network, smoke is a gateway for evading censorship",
+    "description": "Smoke is a gateway for uncensored internet",
     "repository": "https://github.com/FogNetwork/Smoke",
-    "logo": "https://avatars.githubusercontent.com/u/87547936?s=200&v=4",
+    "logo": "https://github.com/FogNetwork/Smoke/raw/master/public/assets/logo.svg",
     "keywords": ["javascript", "proxy", "smoke", "web-proxy", "unblocker"]
 }
