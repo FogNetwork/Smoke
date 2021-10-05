@@ -1,12 +1,9 @@
 # Smoke
 An official proxy of Fog Network and Ludicrous, smoke is a gateway for uncensored internet
 
-<a href="https://heroku.com/deploy?template=https://github.com/FogNetwork/Smoke" title="Deploy to Heroku"><img alt="Deploy to Heroku" src="https://github.com/FogNetwork/Tsunami/raw/main/deploy/heroku.svg" width="140" height="30"><img></a>
-&nbsp;
-<a href="https://repl.it/github/FogNetwork/Smoke" title="Run on Replit"><img alt="Run on Replit" src="https://github.com/FogNetwork/Tsunami/raw/main/deploy/replit.svg" width="140" height="30"><img></a>
-&nbsp;
-<a href="https://glitch.com/edit/#!/import/github/FogNetwork/Smoke" title="Remix on Glitch"><img alt="Remix on glitch" src="https://github.com/FogNetwork/Tsunami/raw/main/deploy/glitch.svg" width="140" height="30"><img></a>
-</div>
+<a href="https://heroku.com/deploy?template=https://github.com/FogNetwork/Smoke"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/heroku2.svg"><img></a>
+<a href="https://repl.it/github/FogNetwork/Smoke"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/replit2.svg"><img></a>
+<a href="https://glitch.com/edit/#!/import/github/FogNetwork/Smoke"><img height="30px" src="https://raw.githubusercontent.com/FogNetwork/Tsunami/main/deploy/glitch2.svg"><img></a>
 
 ### Setup Locally
 
