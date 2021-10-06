@@ -22,11 +22,12 @@ var https = require("https"),
     app = require("express")().use(bodyParser.urlencoded({
         extended: false
     })).use(bodyParser.json()).get("*", (e, r) => {
+      e.headers.useragent === 'googlebot' && r.writeHead(403).end();
         if (e.url.startsWith(prefix + "gateway")) {
           if (!e.query.url.startsWith('http')) {
             e.query.url = 'https://google.com/search?q='+e.query.url
           }
-          new URL(e.query.url) ? r.redirect(prefix + btoa(e.query.url)) : (atob(e.query.url) ? r.redirect(prefix + e.query.url) : r.end("URL Parse Error"))}
+          new URL(e.query.url) ? r.redirect(prefix + btoa(e.query.url)) : (atob(e.query.url) ? r.redirect(prefix + btoa(e.query.url)) : r.end("URL Parse Error"))}
         else {
             if (e.url.startsWith(prefix)) return proxy.request(e, r);
             if ("/" === e.url) r.writeHead(200, {
@@ -41,6 +42,7 @@ var https = require("https"),
             }
         }
     }).post('*', (req, res) => {
+      req.headers.useragent === 'googlebot' && res.writeHead(403).end();
         if (req.url.startsWith(prefix)) return proxy.post(req, res)
     }),
     expressWs = require('express-ws')(app);
