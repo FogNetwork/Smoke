@@ -1,3 +1,6 @@
+# Deprecated!
+This project is deprecated! It has been remade as [Palladium](https://github.com/FogNetwork/Palladium)!
+
 # Smoke
 An official proxy of Fog Network and Ludicrous, smoke is a gateway for uncensored internet
 
